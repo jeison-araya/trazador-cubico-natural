@@ -1,29 +1,70 @@
 from typing import List
 from app.schemas import Interval
+from sympy import symbols, solve, Eq
+
 
 class NaturalCubicTracer:
     intervals: List[Interval]
+    n = None
+    h = []
+    a = []
+    c = []
 
     def __init__(self, intervals: List[Interval]):
         self.intervals = intervals
+        self.n = len(intervals)
+        self.h = [interval.get_height() for interval in intervals]
+        self.a = self._calculate_a_values()
+        self.c = self._calculate_c_values()
 
-    def get_a_i(self, i: int):
-        if (0 <= i < len(self.intervals)):
-            return self.intervals[i].f(x=self.intervals[i].x[0])
-        elif (i == len(self.intervals)):
-            return self.intervals[i - 1].f(x=self.intervals[i - 1].x[-1])
-        
+    def _calculate_a_values(self):
+        a = []
+        for i in range(self.n):
+            a.append(self.intervals[i].f(x=self.intervals[i].x[0]))
+        a.append(self.intervals[-1].f(x=self.intervals[-1].x[-1]))
+
+        return a
+
+    def _calculate_c_values(self):
+        c = []
+        c.append(0)  # c_0 = 0
+
+        for i in range(1, self.n):
+            c.append(symbols(f'c_{i}'))
+        c.append(0)  # c_n = 0
+
+        c_i = ''
+        equations = []
+
+        for i in range(1, self.n):
+            equation = self._build_c_i_equation(
+                h=self.h,
+                a=self.a,
+                c=c,
+                i=i)
+            c_i += f'c_{i} '
+            equations.append(Eq(equation['equation'], equation['solution']))
+
+        # Remove last space
+        c_i = c_i[:-1]
+
+        # Solve the equations
+        solutions: dict = solve((equations), (symbols(c_i)))
+
+        for i in range(1, self.n):
+            solution = solutions.popitem()
+            c[i] = solution[1]
+
+        return c
+
+    def _build_c_i_equation(self, h: List[float], a: List[float], c: List[float], i: int) -> dict:
+        return {
+            'equation': (h[i-1] * c[i-1]) + (2.0 * (h[i-1] + h[i])) * c[i] + (h[i]*c[i+1]),
+            'solution': (3.0 / h[i]) * (a[i+1] - a[i]) - (3.0 / h[i-1]) * (a[i] - a[i-1])
+        }
 
     def show_info(self):
-        for i, interval in enumerate(self.intervals):
-            print(f'Segment: S_{i}')
-            print(f'x: {interval.x}\nf(x): {interval._y}')
-            print(f'height: {interval.get_height()}')
-            print()
-
-        for i in range(len(self.intervals) + 1):
-            print(f'a_{i} = {self.get_a_i(i)}')
-
-    
-    
-
+        print(f'n: {self.n}')
+        print(f'h_i: {self.h}')
+        print(f'a_i: {self.a}')
+        print(f'c_i: {self.c}')
