@@ -50,10 +50,8 @@ class NaturalCubicTracer:
             print(equation)
             equations.append(Eq(equation['equation'], equation['solution']))
 
-        # Remove last space
-        c_i = c_i[:-1]
+        c_i = c_i[:-1]  # Remove last space
 
-        # Solve the equations
         solutions: dict = solve((equations), (symbols(c_i)))
 
         for i in range(1, self.n):
@@ -87,8 +85,6 @@ class NaturalCubicTracer:
         for i in range(self.n):
             if self.intervals[i].x[0] <= x <= self.intervals[i].x[-1]:
                 return self.a[i] + self.b[i] * (x - self.intervals[i].x[0]) + self.c[i] * (x - self.intervals[i].x[0]) ** 2 + self.d[i] * (x - self.intervals[i].x[0]) ** 3
-
-
 
     def show_info(self):
         print(f'n: {self.n}')
