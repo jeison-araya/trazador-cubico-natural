@@ -17,5 +17,11 @@ class Interval:
         """
         return self.x[-1] - self.x[0]
 
+    def aproximate(self, x: float):
+        """
+        Returns aproximation of f(x) using the interval
+        """
+        return self.f(x)
+
     def __str__(self):
         return f'x: {self.x}\nf(x): {self.y}'

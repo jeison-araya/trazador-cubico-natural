@@ -1,16 +1,7 @@
-import numpy as np
 import matplotlib.pyplot as plt
-from app.natural_cubic_trazer import NaturalCubicTracer
 
 
-def show_graphic(S: NaturalCubicTracer):
-    x = []
-    y = []
-
-    for i in np.arange(1.0, 30.0, 1):
-        x.append(i)
-        y.append(S.aproximate(x=i))
-
+def show_graphic(x, y):
     plt.plot(x, y)
 
     plt.xlim(0, 30)
