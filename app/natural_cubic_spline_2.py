@@ -3,8 +3,8 @@ Using the algorithm from the book "Numerical Analysis" by Burden and Faires
 """
 from sympy import symbols
 from typing import List
-
-
+import matplotlib.pyplot as plt
+import numpy as np
 class Interval:
     def __init__(self, x, y):
         self.x = x
@@ -110,3 +110,13 @@ class NaturalCubicSpline:
 
     def __str__(self) -> str:
         return '\n'.join([str(interval) for interval in self.intervals])
+
+    def draw_graphic(self, start: float, end: float, step: float, filename: str):
+        x = []
+        y = []
+        plt.figure()
+        for i in np.arange(start, end, step):
+            x.append(i)
+            y.append(self.aproximate(x=i))
+        plt.plot(x, y)
+        plt.savefig(filename)
