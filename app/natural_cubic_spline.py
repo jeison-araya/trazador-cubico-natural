@@ -5,6 +5,8 @@ from sympy import symbols
 from typing import List
 import matplotlib.pyplot as plt
 import numpy as np
+
+
 class Interval:
     def __init__(self, x, y):
         self.x = x
