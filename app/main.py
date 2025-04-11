@@ -9,13 +9,15 @@ def run_example_1():
 
     S = NaturalCubicSpline(intervals=[S_1])
 
-    x = 0.25
+    x = 0.15
     print(f'S({x}) = { S.aproximate(x=x)}')
 
-    x = 0.35
-    print(f'S({x}) = { S.aproximate(x=x)}')
+    # x = 0.35
+    # print(f'S({x}) = { S.aproximate(x=x)}')
 
     S.draw_graphic(start=0.1, end=0.4, step=0.01, filename='images/test_1.png')
+
+    print(S)
 
 
 def run_example_2():
@@ -34,6 +36,7 @@ def run_example_2():
     print(f'S({x}) = { S.aproximate(x=x)}')
 
     S.draw_graphic(start=1.0, end=30.0, step=0.1, filename='images/test_2.png')
+    print(S)
 
 
 def run_example_3():
@@ -46,7 +49,9 @@ def run_example_3():
 
     S.draw_graphic(start=-0.5, end=0, step=0.01, filename='images/test_3.png')
 
+    print(S)
 
-run_example_1()
-run_example_2()
+
+# run_example_1()
+# run_example_2()
 run_example_3()
